@@ -1,7 +1,5 @@
 package Objects;
 
-import Interface.ProductPage;
-
 import java.util.ArrayList;
 
 public class User {
@@ -36,6 +34,7 @@ public class User {
     public void addToCart(Product product) {
         cart.add(product);
     }
+
 
     public int getId() {
         return id;

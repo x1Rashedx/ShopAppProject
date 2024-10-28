@@ -30,12 +30,15 @@ public class Store {
         Products.add(new Product(name, description, price));
     }
 
+
     public String getName() {
         return name;
     }
+
     public String getManager() {
         return manager;
     }
+
     public String getDescription() {
         return description;
     }
@@ -43,6 +46,7 @@ public class Store {
     public ArrayList<Product> getProducts() {
         return Products;
     }
+
     public int getNumberOfProducts() {
         return Products.size();
     }
