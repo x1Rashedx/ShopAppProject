@@ -18,24 +18,26 @@ public class Page {
     int sidePanelHeight = panelHeight - 40;
 
     Page() {
-        mainPanel.setLayout(null);
+        mainPanel.setLayout(new BorderLayout(0, 0));
     }
 
     protected void defaultBackground() {
         mainPanel.setBackground(Color.GRAY);
         mainPanel.setBounds(0, 0, panelWidth, panelHeight);
 
-        sidePanel.setLayout(null);
+        sidePanel.setLayout(new BorderLayout(0, 0));
         sidePanel.setBackground(Color.DARK_GRAY);
-        sidePanel.setBounds(panelWidth - 300, 40, sidePanelWidth, sidePanelHeight);
+        sidePanel.setPreferredSize(new Dimension(300, 0));
+        //sidePanel.setBounds(panelWidth - 300, 40, sidePanelWidth, sidePanelHeight);
 
         toolBeltPanel.setLayout(new BorderLayout());
         toolBeltPanel.setBackground(Color.DARK_GRAY);
-        toolBeltPanel.setBounds(0, 0, panelWidth, 40);
+        toolBeltPanel.setPreferredSize(new Dimension(0, 40));
         toolBeltButtons();
+        //toolBeltPanel.setBounds(0, 0, panelWidth, 40);
 
-        mainPanel.add(sidePanel);
-        mainPanel.add(toolBeltPanel);
+        mainPanel.add(toolBeltPanel, BorderLayout.NORTH);
+        mainPanel.add(sidePanel, BorderLayout.EAST);
     }
 
     private void toolBeltButtons() {

@@ -36,14 +36,14 @@ public class StoresPage extends Page {
         storesScrollPane.setBounds(0, 0, sidePanelWidth, sidePanelHeight);
         storesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         storesScrollPane.setBackground(Color.DARK_GRAY);
-        sidePanel.add(storesScrollPane);
+        sidePanel.add(storesScrollPane, BorderLayout.CENTER);
         updateStoresPanel("");
     }
 
     private void setupProductsPanel() {
         productsButtonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 6, 6));
         productsButtonsPanel.setBackground(Color.GRAY);
-        productsScrollPane.setBounds(0, 90, panelWidth - sidePanelWidth, panelHeight - 90);
+        //productsScrollPane.setBounds(0, 90, panelWidth - sidePanelWidth, panelHeight - 90);
         productsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         productsScrollPane.setBackground(Color.GRAY);
         mainPanel.add(productsScrollPane);

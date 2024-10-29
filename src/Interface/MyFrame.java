@@ -23,9 +23,10 @@ public class MyFrame {
     private void initFrame() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
+        frame.setMinimumSize(new Dimension(1000, 700));
+        mainPanel.setPreferredSize(new Dimension(width, height));
 
         loadPanels();
-        mainPanel.setPreferredSize(new Dimension(width, height));
         switchToPage("StartPage");
 
         frame.add(mainPanel);
