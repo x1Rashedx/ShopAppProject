@@ -7,39 +7,41 @@ import java.awt.event.ActionListener;
 
 public class Page {
     static MyFrame mainFrame;
-
     protected JPanel mainPanel = new JPanel();
-    protected JPanel drawingPanel = new JPanel();
-    protected JPanel BackGroundPanel = new JPanel();
-    protected JPanel ToolBeltPanel = new JPanel();
 
-    private final JButton accountButton = new JButton();
-    private final JButton cartButton = new JButton();
+    protected JPanel toolBeltPanel = new JPanel();
+    protected JPanel sidePanel = new JPanel();
+
+    int panelWidth = MyFrame.width;
+    int panelHeight = MyFrame.height;
+    int sidePanelWidth = 300;
+    int sidePanelHeight = panelHeight - 40;
 
     Page() {
         mainPanel.setLayout(null);
     }
 
     protected void defaultBackground() {
-        BackGroundPanel.setBackground(Color.GRAY);
-        BackGroundPanel.setBounds(0, 0, 700, 700);
+        mainPanel.setBackground(Color.GRAY);
+        mainPanel.setBounds(0, 0, panelWidth, panelHeight);
 
-        ToolBeltPanel.setLayout(new BorderLayout());
-        ToolBeltPanel.setBackground(Color.DARK_GRAY);
-        ToolBeltPanel.setBounds(0, 0, 987, 40);
+        sidePanel.setLayout(null);
+        sidePanel.setBackground(Color.DARK_GRAY);
+        sidePanel.setBounds(panelWidth - 300, 40, sidePanelWidth, sidePanelHeight);
 
-        drawingPanel.setLayout(null);
-        drawingPanel.setBounds(0, 0, 1000, 700);
-
+        toolBeltPanel.setLayout(new BorderLayout());
+        toolBeltPanel.setBackground(Color.DARK_GRAY);
+        toolBeltPanel.setBounds(0, 0, panelWidth, 40);
         toolBeltButtons();
 
-        drawingPanel.add(ToolBeltPanel);
-        drawingPanel.add(BackGroundPanel);
-
-        mainPanel.add(drawingPanel);
+        mainPanel.add(sidePanel);
+        mainPanel.add(toolBeltPanel);
     }
 
     private void toolBeltButtons() {
+        JButton accountButton = new JButton();
+        JButton cartButton = new JButton();
+
         ImageIcon icon = new ImageIcon("src/Resources/download.png");
         Image img = icon.getImage();
         Image scaledImg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
@@ -51,22 +53,18 @@ public class Page {
 
         switchToPageWhenPressed(cartButton, "CartPage");
 
-        ToolBeltPanel.add(cartButton, BorderLayout.EAST);
+        toolBeltPanel.add(cartButton, BorderLayout.EAST);
     }
 
-    public JPanel getPanel() {
-        return mainPanel;
-    }
-
-    protected void setButton(JButton button, int x , int y, int width, int height) {
+    protected void setButton(JButton button, JPanel panel, int x , int y, int width, int height) {
         button.setBounds(x, y, width, height);
         button.setFocusable(false);
-        mainPanel.add(button);
+        panel.add(button);
     }
 
-    protected void setLabel(JLabel label, int x , int y, int width, int height) {
+    protected void setLabel(JLabel label, JPanel panel, int x , int y, int width, int height) {
         label.setBounds(x, y, width, height);
-        mainPanel.add(label);
+        panel.add(label);
     }
 
     protected static void switchToPageWhenPressed(JButton button, String pageName) {
@@ -76,5 +74,9 @@ public class Page {
                 mainFrame.switchToPage(pageName);
             }
         });
+    }
+
+    public JPanel getPanel() {
+        return mainPanel;
     }
 }

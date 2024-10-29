@@ -14,33 +14,68 @@ public class StoresPage extends Page {
     private final JPanel productsButtonsPanel = new JPanel();
     private final JScrollPane productsScrollPane = new JScrollPane(productsButtonsPanel);
     private final JScrollPane storesScrollPane = new JScrollPane(storesButtonsPanel);
+    private final JTextField searchField = new JTextField(20);
+    private final JButton searchButton = new JButton("Search");
+
+    private final Color buttonColor = Color.DARK_GRAY;
 
     public StoresPage() {
         initPage();
     }
 
     private void initPage() {
+        defaultBackground();
+        setupStoresPanel();
+        setupProductsPanel();
+        setupSearchBar();
+    }
 
-        storesButtonsPanel.setLayout(new GridLayout(0, 1, 2, 0));
+    private void setupStoresPanel() {
+        storesButtonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        storesButtonsPanel.setBackground(Color.DARK_GRAY);
+        storesScrollPane.setBounds(0, 0, sidePanelWidth, sidePanelHeight);
+        storesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        storesScrollPane.setBackground(Color.DARK_GRAY);
+        sidePanel.add(storesScrollPane);
+        updateStoresPanel("");
+    }
 
+    private void setupProductsPanel() {
         productsButtonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 6, 6));
         productsButtonsPanel.setBackground(Color.GRAY);
-
-        for (Store store : Main.Stores) {
-            JButton storeButton = getStoreButton(store);
-            storesButtonsPanel.add(storeButton);
-        }
-
-        storesScrollPane.setBounds(700, 40, 290, 625);
-        storesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        productsScrollPane.setBounds(0, 90, 700, 575);
+        productsScrollPane.setBounds(0, 90, panelWidth - sidePanelWidth, panelHeight - 90);
         productsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         productsScrollPane.setBackground(Color.GRAY);
-
-        mainPanel.add(storesScrollPane);
         mainPanel.add(productsScrollPane);
-        defaultBackground();
+    }
+
+    private void setupSearchBar() {
+        searchField.setToolTipText("Search for stores...");
+        searchField.setPreferredSize(new Dimension(400, 30));
+        toolBeltPanel.add(searchField, BorderLayout.CENTER);
+        toolBeltPanel.add(searchButton, BorderLayout.WEST);
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchTerm = searchField.getText().toLowerCase();
+                updateStoresPanel(searchTerm);
+            }
+        });
+    }
+
+    private void updateStoresPanel(String searchTerm) {
+        storesButtonsPanel.removeAll();
+        int storesPanelHeight = 65;
+        for (Store store : Main.Stores) {
+            if (store.getName().toLowerCase().contains(searchTerm)) {
+                storesPanelHeight += 65;
+                JButton storeButton = getStoreButton(store);
+                storesButtonsPanel.add(storeButton);
+            }
+        }
+        storesButtonsPanel.setPreferredSize(new Dimension(0, storesPanelHeight));
+        storesButtonsPanel.revalidate();
+        storesButtonsPanel.repaint();
     }
 
     //Buttons for Stores:
@@ -51,25 +86,24 @@ public class StoresPage extends Page {
         storeButton.setLayout(new BorderLayout());
         storeButton.setMargin(new Insets(0, 0, 0, 0));
 
-        storeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Store selected: " + store.getName());
-                getStoreProductsPanel(store);
-            }
-        });
-
         ImageIcon icon = new ImageIcon("src/Resources/download.png");
         Image img = icon.getImage();
         Image scaledImg = img.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImg);
 
         JLabel imageLabel = new JLabel(scaledIcon);
-        storeButton.add(imageLabel, BorderLayout.WEST);
-
         JPanel textPanel = getStoreButtonPanel(store);
 
+        storeButton.add(imageLabel, BorderLayout.WEST);
         storeButton.add(textPanel, BorderLayout.CENTER);
+
+        storeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Store selected: " + store.getName());
+                updateProductsPanel(store);
+            }
+        });
 
         return storeButton;
     }
@@ -77,6 +111,7 @@ public class StoresPage extends Page {
     private JPanel getStoreButtonPanel(Store store) {
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BorderLayout());
+        textPanel.setBackground(buttonColor);
         textPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JLabel nameLabel = new JLabel(store.getName());
@@ -92,12 +127,12 @@ public class StoresPage extends Page {
 
     //Panel that displays products when clicking on a store:
 
-    private void getStoreProductsPanel(Store store) {
+    private void updateProductsPanel(Store store) {
         productsButtonsPanel.removeAll();
-        int productPanelHeight = 240;
+        int productPanelHeight = 230;
 
         for (Product product : store.getProducts()) {
-            productPanelHeight += 58;
+            productPanelHeight += 230 / ((panelWidth - sidePanelWidth) / 171);
             JButton productButton = getProductButton(product);
             productsButtonsPanel.add(productButton);
         }
@@ -115,6 +150,17 @@ public class StoresPage extends Page {
         productButton.setLayout(new BorderLayout());
         productButton.setMargin(new Insets(0, 0, 0, 0));
 
+        ImageIcon icon = new ImageIcon("src/Resources/download.png");
+        Image img = icon.getImage();
+        Image scaledImg = img.getScaledInstance(165, 165, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImg);
+
+        JLabel imageLabel = new JLabel(scaledIcon);
+        JPanel textPanel = getProductButtonPanel(product);
+
+        productButton.add(imageLabel, BorderLayout.NORTH);
+        productButton.add(textPanel, BorderLayout.CENTER);
+
         productButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -123,24 +169,13 @@ public class StoresPage extends Page {
             }
         });
 
-        ImageIcon icon = new ImageIcon("src/Resources/download.png");
-        Image img = icon.getImage();
-        Image scaledImg = img.getScaledInstance(165, 165, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImg);
-
-        JLabel imageLabel = new JLabel(scaledIcon);
-        productButton.add(imageLabel, BorderLayout.NORTH);
-
-        JPanel textPanel = getProductButtonPanel(product);
-
-        productButton.add(textPanel, BorderLayout.CENTER);
-
         return productButton;
     }
 
     private JPanel getProductButtonPanel(Product product) {
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BorderLayout());
+        textPanel.setBackground(buttonColor);
         textPanel.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 3));
 
         JLabel nameLabel = new JLabel(product.getName());

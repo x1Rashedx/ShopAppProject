@@ -11,23 +11,24 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 public class CartPage extends Page {
-    private JButton checkoutButton = new JButton("Checkout");
-    private JButton backButton = new JButton("Back");
-    private JPanel productsButtonsPanel = new JPanel();
-    private JScrollPane productsScrollPane = new JScrollPane(productsButtonsPanel);
-    private int productPanelHeight;
+    private final JButton checkoutButton = new JButton("Checkout");
+    private final JButton backButton = new JButton("Back");
+    private final JPanel productsButtonsPanel = new JPanel();
+    private final JScrollPane productsScrollPane = new JScrollPane(productsButtonsPanel);
+
+    private final Color buttonColor = Color.DARK_GRAY;
 
     CartPage() {
         initPage();
     }
 
     private void initPage() {
-        setButton(checkoutButton, 750, 500, 200, 25);
-        setButton(backButton, 750, 550, 200, 25);
+        setButton(checkoutButton, sidePanel, (sidePanelWidth / 2) - 100, sidePanelHeight - 250, 200, 25);
+        setButton(backButton, sidePanel,(sidePanelWidth / 2) - 100, sidePanelHeight - 200, 200, 25);
 
         productsButtonsPanel.setBackground(Color.GRAY);
 
-        productsScrollPane.setBounds(0, 40, 700, 660);
+        productsScrollPane.setBounds(0, 40, panelWidth - sidePanelWidth, panelHeight - 40);
         productsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         productsScrollPane.setBackground(Color.GRAY);
 
@@ -52,10 +53,10 @@ public class CartPage extends Page {
 
     private void updateCartProductsPanel() {
         productsButtonsPanel.removeAll();
-        productPanelHeight = 230;
+        int productPanelHeight = 20;
 
         for (Product product : Main.currentUser.getCart()) {
-            productPanelHeight += 230;
+            productPanelHeight += 205;
             JButton productButton = getProductButton(product);
             productsButtonsPanel.add(productButton);
         }
@@ -96,6 +97,7 @@ public class CartPage extends Page {
     private JPanel getProductButtonPanel(Product product) {
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BorderLayout());
+        textPanel.setBackground(buttonColor);
         textPanel.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 3));
 
         JLabel nameLabel = new JLabel(product.getName());

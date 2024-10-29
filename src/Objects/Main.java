@@ -25,7 +25,10 @@ public class Main {
         addStore("Fifine", "", "");
         addStore("Ikea", "", "");
         addStore("", "", "");
-        addStore("", "", "");
+        addStore("hello", "", "");
+        addStore("hello", "", "");
+        addStore("hello", "", "");
+        addStore("hello", "", "");
         int j = 0;
         for (Store store : Stores) {
             for (int i = 1; i <= 15; i++) {

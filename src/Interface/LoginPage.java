@@ -18,17 +18,17 @@ public class LoginPage extends Page {
 
     void initPage() {
 
-        setButton(loginButton, 750, 500, 200, 25);
-        setButton(backButton, 750, 550, 200, 25);
+        setButton(loginButton, sidePanel,(sidePanelWidth / 2) - 100, sidePanelHeight - 250, 200, 25);
+        setButton(backButton, sidePanel, (sidePanelWidth / 2) - 100, sidePanelHeight - 200, 200, 25);
 
-        setLabel(emailLabel, 750, 175, 200, 25);
-        setLabel(passLabel, 750, 225, 200, 25);
+        setLabel(emailLabel, sidePanel, (sidePanelWidth / 2) - 100, (sidePanelHeight / 3) - 75, 200, 25);
+        setLabel(passLabel, sidePanel, (sidePanelWidth / 2) - 100, (sidePanelHeight / 3) - 25, 200, 25);
 
-        emailField.setBounds(750, 200, 200, 25);
-        passField.setBounds(750, 250, 200, 25);
+        emailField.setBounds((sidePanelWidth / 2) - 100, (sidePanelHeight / 3) - 50, 200, 25);
+        passField.setBounds((sidePanelWidth / 2) - 100, (sidePanelHeight / 3), 200, 25);
 
-        mainPanel.add(emailField);
-        mainPanel.add(passField);
+        sidePanel.add(emailField);
+        sidePanel.add(passField);
 
         actionListener();
         defaultBackground();

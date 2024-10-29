@@ -13,19 +13,23 @@ public class MyFrame {
     private final JPanel mainPanel = new JPanel(cardLayout);
     private final Stack<String> history = new Stack<String>();
 
+    static final int width = 1200;
+    static final int height = 800;
+
     public MyFrame() {
         initFrame();
     }
 
     private void initFrame() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.setSize(1000, 700);
+        frame.setResizable(true);
 
         loadPanels();
+        mainPanel.setPreferredSize(new Dimension(width, height));
         switchToPage("StartPage");
 
         frame.add(mainPanel);
+        frame.pack();
         frame.setVisible(true);
     }
 
