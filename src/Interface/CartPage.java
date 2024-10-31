@@ -55,7 +55,7 @@ public class CartPage extends Page {
         productsButtonsPanel.removeAll();
         int productPanelHeight = 20;
 
-        for (Product product : Main.currentUser.getCart()) {
+        for (Product product : Main.currentUser.getCart().getProducts()) {
             productPanelHeight += 205;
             JButton productButton = getProductButton(product);
             productsButtonsPanel.add(productButton);

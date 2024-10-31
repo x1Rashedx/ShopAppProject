@@ -7,7 +7,7 @@ public class User {
     private String name;
     private String password;
     private String privileges;
-    private ArrayList<Product> cart = new ArrayList<Product>();
+    private Cart cart;
 
     User(String name, String password, String privileges) {
         this.name = name;
@@ -32,7 +32,7 @@ public class User {
     }
 
     public void addToCart(Product product) {
-        cart.add(product);
+        cart.addProduct(product);
     }
 
 
@@ -52,7 +52,7 @@ public class User {
         return privileges;
     }
 
-    public ArrayList<Product> getCart() {
+    public Cart getCart() {
         return cart;
     }
 }
