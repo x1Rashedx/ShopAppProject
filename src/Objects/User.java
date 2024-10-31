@@ -3,20 +3,21 @@ package Objects;
 import java.util.ArrayList;
 
 public class User {
-    private int id;
+    private int iD;
     private String name;
+    private String phoneNumber;
+    private String email;
     private String password;
-    private String privileges;
-    private Cart cart;
+    private final ArrayList<Address> addresses = new ArrayList<Address>();
+    private final Cart cart = new Cart();
 
     User(String name, String password, String privileges) {
         this.name = name;
         this.password = password;
-        this.privileges = privileges;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int iD) {
+        this.iD = iD;
     }
 
     public void setName(String name) {
@@ -27,8 +28,16 @@ public class User {
         this.password = password;
     }
 
-    public void setPrivileges(String privileges) {
-        this.privileges = privileges;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void addAddress(Address address) {
+        addresses.add(address);
     }
 
     public void addToCart(Product product) {
@@ -37,7 +46,7 @@ public class User {
 
 
     public int getId() {
-        return id;
+        return iD;
     }
 
     public String getName() {
@@ -48,11 +57,19 @@ public class User {
         return password;
     }
 
-    public String getPrivileges() {
-        return privileges;
-    }
-
     public Cart getCart() {
         return cart;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public ArrayList<Address> getAddresses() {
+        return addresses;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

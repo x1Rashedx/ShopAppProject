@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Cart {
     private double totalPrice = 0;
     private int numberOfProducts = 0;
-    private ArrayList<Product> Products = new ArrayList<Product>();
+    private final ArrayList<Product> Products = new ArrayList<Product>();
 
     public ArrayList<Product> getProducts() {
         return Products;
