@@ -11,7 +11,7 @@ public class MyFrame {
     private final JFrame frame = new JFrame("ShopSphere");
     private final CardLayout cardLayout = new CardLayout();
     private final JPanel mainPanel = new JPanel(cardLayout);
-    private final Stack<String> history = new Stack<String>();
+    private final Stack<String> history = new Stack<>();
 
     static final int width = 1200;
     static final int height = 800;
@@ -40,6 +40,7 @@ public class MyFrame {
         mainPanel.add(new LoginPage().getPanel(), "LoginPage");
         mainPanel.add(new StoresPage().getPanel(), "StoresPage");
         mainPanel.add(new CartPage().getPanel(), "CartPage");
+        mainPanel.add(new AccountPage().getPanel(), "AccountPage");
     }
 
     public void switchToPage(String pageName) {

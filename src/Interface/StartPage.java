@@ -13,13 +13,12 @@ public class StartPage extends Page {
     }
 
     public void initPage() {
-
         setButton(LoginButton, sidePanel, (sidePanelWidth / 2) - 100, (sidePanelHeight / 2) - 150, 200, 25);
         setButton(RegisterButton, sidePanel, (sidePanelWidth / 2) - 100, (sidePanelHeight / 2) - 100, 200, 25);
         setButton(GuestButton, sidePanel, (sidePanelWidth / 2) - 100, (sidePanelHeight / 2) - 50, 200, 25);
 
-        actionListener();
         defaultBackground();
+        actionListener();
     }
 
     public void actionListener() {

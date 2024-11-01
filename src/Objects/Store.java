@@ -1,42 +1,63 @@
 package Objects;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
+//add id to constructor later.
 public class Store {
+    private final UUID iD;
     private String name;
     private String description;
-    private String manager;
-    private ArrayList<Product> Products = new ArrayList<Product>();
+    private final ArrayList<UUID> managers = new ArrayList<>();
+    private final ArrayList<Product> Products = new ArrayList<>();
 
-    Store(String name, String description, String manager) {
+    Store(String iD,String name, String description) {
+        this.iD = UUID.fromString(iD);
         this.name = name;
         this.description = description;
-        this.manager = manager;
     }
 
-    public void setName(String name) {
+    Store(String name, String description) {
+        this.iD = UUID.randomUUID();
         this.name = name;
-    }
-
-    public void setManager(String manager) {
-        this.manager = manager;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
     }
 
-    public void addProduct(String name, String description, double price) {
-        Products.add(new Product(name, description, price));
+    public void changeName(String name) {
+        this.name = name;
     }
 
+    public void addManager(UUID manager) {
+        this.managers.add(manager);
+    }
+
+    public void removeManager(UUID manager) {
+        this.managers.remove(manager);
+    }
+
+    public void changeDescription(String description) {
+        this.description = description;
+    }
+
+    public void addProduct(Product product) {
+        Products.add(product);
+    }
+
+    public void removeProduct(Product product) {
+        Products.remove(product);
+    }
+
+
+    public UUID getId() {
+        return iD;
+    }
 
     public String getName() {
         return name;
     }
 
-    public String getManager() {
-        return manager;
+    public ArrayList<UUID> getManagers() {
+        return managers;
     }
 
     public String getDescription() {

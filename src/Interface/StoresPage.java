@@ -3,17 +3,19 @@ package Interface;
 import Objects.Main;
 import Objects.Product;
 import Objects.Store;
+import Utils.Images;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 public class StoresPage extends Page {
     private final JPanel storesButtonsPanel = new JPanel();
     private final JPanel productsButtonsPanel = new JPanel();
     private final JScrollPane productsScrollPane = new JScrollPane(productsButtonsPanel);
     private final JScrollPane storesScrollPane = new JScrollPane(storesButtonsPanel);
+    private final JPanel searchPanel = new JPanel();
     private final JTextField searchField = new JTextField(20);
     private final JButton searchButton = new JButton("Search");
 
@@ -25,15 +27,16 @@ public class StoresPage extends Page {
 
     private void initPage() {
         defaultBackground();
+        sidePanel.setLayout(new BorderLayout(0, 0));
         setupStoresPanel();
         setupProductsPanel();
-        setupSearchBar();
+        setupSearchBarPanel();
     }
 
     private void setupStoresPanel() {
         storesButtonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         storesButtonsPanel.setBackground(Color.DARK_GRAY);
-        storesScrollPane.setBounds(0, 0, sidePanelWidth, sidePanelHeight);
+        //storesScrollPane.setBounds(0, 0, sidePanelWidth, sidePanelHeight);
         storesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         storesScrollPane.setBackground(Color.DARK_GRAY);
         sidePanel.add(storesScrollPane, BorderLayout.CENTER);
@@ -49,18 +52,34 @@ public class StoresPage extends Page {
         mainPanel.add(productsScrollPane);
     }
 
-    private void setupSearchBar() {
-        searchField.setToolTipText("Search for stores...");
+    private void setupSearchBarPanel() {
+        searchField.setText("Search for stores...");
         searchField.setPreferredSize(new Dimension(400, 30));
-        toolBeltPanel.add(searchField, BorderLayout.CENTER);
-        toolBeltPanel.add(searchButton, BorderLayout.WEST);
-        searchButton.addActionListener(new ActionListener() {
+        searchField.addFocusListener(new FocusListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                String searchTerm = searchField.getText().toLowerCase();
-                updateStoresPanel(searchTerm);
+            public void focusGained(FocusEvent e) {
+                if (searchField.getText().equals("Search for stores...")) {
+                    searchField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (searchField.getText().isEmpty()) {
+                    searchField.setText("Search for stores...");
+                }
             }
         });
+        searchButton.addActionListener(e -> {
+            String searchTerm = searchField.getText().toLowerCase();
+            if (searchTerm.equals("search for stores...")) {
+                searchTerm = "";
+            }
+            updateStoresPanel(searchTerm);
+        });
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+        toolBeltPanel.add(searchPanel, BorderLayout.CENTER);
     }
 
     private void updateStoresPanel(String searchTerm) {
@@ -86,23 +105,15 @@ public class StoresPage extends Page {
         storeButton.setLayout(new BorderLayout());
         storeButton.setMargin(new Insets(0, 0, 0, 0));
 
-        ImageIcon icon = new ImageIcon("src/Resources/download.png");
-        Image img = icon.getImage();
-        Image scaledImg = img.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImg);
-
-        JLabel imageLabel = new JLabel(scaledIcon);
+        JLabel imageLabel = new JLabel(Images.getImage("download", 60, 60));
         JPanel textPanel = getStoreButtonPanel(store);
 
         storeButton.add(imageLabel, BorderLayout.WEST);
         storeButton.add(textPanel, BorderLayout.CENTER);
 
-        storeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Store selected: " + store.getName());
-                updateProductsPanel(store);
-            }
+        storeButton.addActionListener(e -> {
+            System.out.println("Store selected: " + store.getName());
+            updateProductsPanel(store);
         });
 
         return storeButton;
@@ -125,8 +136,8 @@ public class StoresPage extends Page {
         return textPanel;
     }
 
-    //Panel that displays products when clicking on a store:
 
+    //Panel that displays products when clicking on a store:
     private void updateProductsPanel(Store store) {
         productsButtonsPanel.removeAll();
         int productPanelHeight = 230;
@@ -142,31 +153,23 @@ public class StoresPage extends Page {
         productsButtonsPanel.repaint();
     }
 
-    //Buttons for Products
 
+    //Buttons for Products
     private JButton getProductButton(Product product) {
         JButton productButton = new JButton();
         productButton.setPreferredSize(new Dimension(165, 230));
         productButton.setLayout(new BorderLayout());
         productButton.setMargin(new Insets(0, 0, 0, 0));
 
-        ImageIcon icon = new ImageIcon("src/Resources/download.png");
-        Image img = icon.getImage();
-        Image scaledImg = img.getScaledInstance(165, 165, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImg);
-
-        JLabel imageLabel = new JLabel(scaledIcon);
+        JLabel imageLabel = new JLabel(Images.getImage("download", 165, 165));
         JPanel textPanel = getProductButtonPanel(product);
 
         productButton.add(imageLabel, BorderLayout.NORTH);
         productButton.add(textPanel, BorderLayout.CENTER);
 
-        productButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Product selected: " + product.getName());
-                Main.currentUser.addToCart(product);
-            }
+        productButton.addActionListener(e -> {
+            System.out.println("Product selected: " + product.getName());
+            Main.currentUser.addToCart(product);
         });
 
         return productButton;

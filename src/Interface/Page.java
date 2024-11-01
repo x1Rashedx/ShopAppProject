@@ -1,11 +1,10 @@
 package Interface;
 
+import Utils.Images;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class Page {
+public abstract class Page {
     static MyFrame mainFrame;
     protected JPanel mainPanel = new JPanel();
 
@@ -19,13 +18,13 @@ public class Page {
 
     Page() {
         mainPanel.setLayout(new BorderLayout(0, 0));
+        mainPanel.setBounds(0, 0, panelWidth, panelHeight);
     }
 
     protected void defaultBackground() {
         mainPanel.setBackground(Color.GRAY);
-        mainPanel.setBounds(0, 0, panelWidth, panelHeight);
 
-        sidePanel.setLayout(new BorderLayout(0, 0));
+        sidePanel.setLayout(null);
         sidePanel.setBackground(Color.DARK_GRAY);
         sidePanel.setPreferredSize(new Dimension(300, 0));
         //sidePanel.setBounds(panelWidth - 300, 40, sidePanelWidth, sidePanelHeight);
@@ -44,18 +43,19 @@ public class Page {
         JButton accountButton = new JButton();
         JButton cartButton = new JButton();
 
-        ImageIcon icon = new ImageIcon("src/Resources/download.png");
-        Image img = icon.getImage();
-        Image scaledImg = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImg);
-
         cartButton.setPreferredSize(new Dimension(40, 40));
         cartButton.setMargin(new Insets(0, 0, 0, 0));
-        cartButton.add(new JLabel(scaledIcon));
+        cartButton.add(new JLabel(Images.getImage("download", 40, 40)));
+
+        accountButton.setPreferredSize(new Dimension(40, 40));
+        accountButton.setMargin(new Insets(0, 0, 0, 0));
+        accountButton.add(new JLabel(Images.getImage("UserImg", 40, 40)));
 
         switchToPageWhenPressed(cartButton, "CartPage");
+        switchToPageWhenPressed(accountButton, "AccountPage");
 
         toolBeltPanel.add(cartButton, BorderLayout.EAST);
+        toolBeltPanel.add(accountButton, BorderLayout.WEST);
     }
 
     protected void setButton(JButton button, JPanel panel, int x , int y, int width, int height) {
@@ -70,12 +70,7 @@ public class Page {
     }
 
     protected static void switchToPageWhenPressed(JButton button, String pageName) {
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.switchToPage(pageName);
-            }
-        });
+        button.addActionListener(e -> mainFrame.switchToPage(pageName));
     }
 
     public JPanel getPanel() {

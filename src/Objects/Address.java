@@ -1,30 +1,53 @@
 package Objects;
 
+import java.util.UUID;
+
 public class Address {
-    private String Country;
+    private final UUID iD;
+    private String country;
     private String city;
     private String postalCode;
-    private String AdditionalInfo;
+    private String additionalInfo;
 
-
-    public void setCountry(String country) {
-        Country = country;
+    Address(String iD, String country, String city, String postalCode, String additionalInfo) {
+        this.iD = UUID.fromString(iD);
+        this.country = country;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.additionalInfo = additionalInfo;
     }
 
-    public void setCity(String city) {
+    Address(String country, String city, String postalCode, String additionalInfo) {
+        this.iD = UUID.randomUUID();
+        this.country = country;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.additionalInfo = additionalInfo;
+    }
+
+    public void changeCountry(String country) {
+        this.country = country;
+    }
+
+    public void changeCity(String city) {
         this.city = city;
     }
 
-    public void setPostalCode(String postalCode) {
+    public void changePostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
-    public void setAdditionalInfo(String additionalInfo) {
-        AdditionalInfo = additionalInfo;
+    public void changeAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
+    }
+
+
+    public UUID getId() {
+        return iD;
     }
 
     public String getCountry() {
-        return Country;
+        return country;
     }
 
     public String getCity() {
@@ -36,7 +59,7 @@ public class Address {
     }
 
     public String getAdditionalInfo() {
-        return AdditionalInfo;
+        return additionalInfo;
     }
 
 

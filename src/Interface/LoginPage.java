@@ -17,6 +17,8 @@ public class LoginPage extends Page {
     }
 
     void initPage() {
+        defaultBackground();
+        actionListener();
 
         setButton(loginButton, sidePanel,(sidePanelWidth / 2) - 100, sidePanelHeight - 250, 200, 25);
         setButton(backButton, sidePanel, (sidePanelWidth / 2) - 100, sidePanelHeight - 200, 200, 25);
@@ -30,8 +32,6 @@ public class LoginPage extends Page {
         sidePanel.add(emailField);
         sidePanel.add(passField);
 
-        actionListener();
-        defaultBackground();
     }
 
     public void actionListener() {
