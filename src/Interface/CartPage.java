@@ -2,11 +2,10 @@ package Interface;
 
 import Objects.Main;
 import Objects.Product;
+import Utils.Images;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
@@ -72,19 +71,9 @@ public class CartPage extends Page {
         productButton.setLayout(new BorderLayout());
         productButton.setMargin(new Insets(0, 0, 0, 0));
 
-        productButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Product selected: " + product.getName());
-            }
-        });
+        productButton.addActionListener(e -> System.out.println("Product selected: " + product.getName()));
 
-        ImageIcon icon = new ImageIcon("src/Resources/download.png");
-        Image img = icon.getImage();
-        Image scaledImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImg);
-
-        JLabel imageLabel = new JLabel(scaledIcon);
+        JLabel imageLabel = new JLabel(Images.getImage("download", 200, 200));
         productButton.add(imageLabel, BorderLayout.WEST);
 
         JPanel textPanel = getProductButtonPanel(product);
