@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public final class UsersService extends Service {
 
-    public int Register(String firstName, String lastName, String phoneNumber, String email, String password) {
+    public static int Register(String firstName, String lastName, String phoneNumber, String email, String password) {
         UUID iD = UUID.randomUUID();
 
         int response = database.addUser(iD, firstName, lastName, phoneNumber, email, password);
@@ -19,7 +19,13 @@ public final class UsersService extends Service {
         return response;
     }
 
-    public boolean login(String phoneNumberOrEmail, String password) {
-        return true;
+    public static boolean login(String phoneNumberOrEmail, String password) {
+        User user = database.login(phoneNumberOrEmail, password);
+        if (user != null) {
+            Main.setCurrentUser(user);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

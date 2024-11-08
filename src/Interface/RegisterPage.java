@@ -5,7 +5,6 @@ import Services.UsersService;
 import javax.swing.*;
 
 public class RegisterPage extends Page {
-    UsersService registrationService = new UsersService();
 
     private final JButton registerButton = new JButton("Register");
     private final JButton backButton = new JButton("Back");
@@ -75,7 +74,7 @@ public class RegisterPage extends Page {
         } else if (!passwordField.getText().equals(confirmPasswordField.getText())) {
             updateWarningLabel("Password not the same.");
         } else {
-            response = registrationService.Register(firstNameField.getText(), lastNameField.getText(), phoneNumberField.getText(), emailField.getText(), passwordField.getText());
+            response = UsersService.Register(firstNameField.getText(), lastNameField.getText(), phoneNumberField.getText(), emailField.getText(), passwordField.getText());
             if (response == -1) {
                 updateWarningLabel("Phone number already in use.");
             } else if (response == 1) {

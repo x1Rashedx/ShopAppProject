@@ -3,6 +3,10 @@ package Interface;
 import Objects.Main;
 import Objects.Product;
 import Objects.Store;
+import Services.CartService;
+import Services.ProductsService;
+import Services.StoresService;
+import Services.UsersService;
 import Utils.Images;
 
 import javax.swing.*;
@@ -94,7 +98,7 @@ public class StoresPage extends Page {
     private void updateStoresPanel(String searchTerm) {
         storesButtonsPanel.removeAll();
         int storesPanelHeight = 65;
-        for (Store store : Main.Stores) {
+        for (Store store : StoresService.getStores()) {
             if (store.getName().toLowerCase().contains(searchTerm)) {
                 storesPanelHeight += 65;
                 JButton storeButton = getStoreButton(store);
@@ -114,7 +118,7 @@ public class StoresPage extends Page {
         storeButton.setLayout(new BorderLayout());
         storeButton.setMargin(new Insets(0, 0, 0, 0));
 
-        JLabel imageLabel = new JLabel(Images.getImage("download", 60, 60));
+        JLabel imageLabel = new JLabel(Images.getImage("CartImg", 60, 60));
         JPanel textPanel = getStoreButtonPanel(store);
 
         storeButton.add(imageLabel, BorderLayout.WEST);
@@ -151,12 +155,11 @@ public class StoresPage extends Page {
         productsButtonsPanel.removeAll();
         int productPanelHeight = 230;
 
-        /*for (UUID productId : store.getProducts()) {
-
+        for (Product product : ProductsService.getProducts(store.getId())) {
             productPanelHeight += 230 / ((panelWidth - sidePanelWidth) / 171);
             JButton productButton = getProductButton(product);
             productsButtonsPanel.add(productButton);
-        }*/
+        }
 
         productsButtonsPanel.setPreferredSize(new Dimension(0, productPanelHeight));
         productsButtonsPanel.revalidate();
@@ -171,7 +174,7 @@ public class StoresPage extends Page {
         productButton.setLayout(new BorderLayout());
         productButton.setMargin(new Insets(0, 0, 0, 0));
 
-        JLabel imageLabel = new JLabel(Images.getImage("download", 165, 165));
+        JLabel imageLabel = new JLabel(Images.scaleImage(product.getMainImageIcon(), 165, 165));
         JPanel textPanel = getProductButtonPanel(product);
 
         productButton.add(imageLabel, BorderLayout.NORTH);
@@ -179,7 +182,7 @@ public class StoresPage extends Page {
 
         productButton.addActionListener(e -> {
             System.out.println("Product selected: " + product.getName());
-            Main.currentUser.addToCart(product);
+            CartService.addToCart(product, 1);
         });
 
         return productButton;

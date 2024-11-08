@@ -17,6 +17,11 @@ public final class Images {
         return new ImageIcon(scaledImg);
     }
 
+    public static ImageIcon scaleImage(ImageIcon imgIcon, int width, int height) {
+        Image scaledImg = imgIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImg);
+    }
+
     public static ImageIcon byteArrayToImageIcon(byte[] imageData) {
         ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
         try {

@@ -15,9 +15,9 @@ public class Cart {
     }
 
 
-    public void addProduct(Product product) {
+    public void addProduct(Product product, int quantity) {
         UUID productId = product.getId();
-        products.put(productId, products.getOrDefault(productId, 0) + 1);
+        products.put(productId, products.getOrDefault(productId, 0) + quantity);
         totalPrice += product.getPrice();
         numberOfProducts++;
     }

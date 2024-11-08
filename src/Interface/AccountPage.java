@@ -48,19 +48,19 @@ public class AccountPage extends Page {
     protected void actionListener() {
         switchToPageWhenPressed(backButton, "PreviousPage");
         specialUserButton.addActionListener(e -> {
-            if (Main.currentUser.isAdmin()) {
+            if (Main.getCurrentUser().isAdmin()) {
                 MyFrame.switchToPage("AdminPage");
-            } else if (Main.currentUser.isAdmin()) {
+            } else if (Main.getCurrentUser().isAdmin()) {
                 MyFrame.switchToPage("ManagerPage");
             }
         });
     }
 
     private void updateSpecialUserButton() {
-        if (Main.currentUser.isAdmin()) {
+        if (Main.getCurrentUser().isAdmin()) {
             specialUserButton.setText("Admin settings");
             specialUserButton.setVisible(true);
-        } else if (Main.currentUser.isManager()) {
+        } else if (Main.getCurrentUser().isManager()) {
             specialUserButton.setText("Manager settings");
             specialUserButton.setVisible(true);
         } else {

@@ -53,6 +53,7 @@ public final class MyFrame {
 
     static void switchToPage(String pageName) {
         if (pageName.equals("CheckoutPage") && !Main.isSignedIn()) {pageName = "LoginPage";}
+        if (pageName.equals("AccountPage") && !Main.isSignedIn()) {pageName = "LoginPage";}
         if (pageName.equals("PreviousPage")) {history.pop(); pageName = history.pop();}
         cardLayout.show(mainPanel, pageName);
         history.push(pageName);

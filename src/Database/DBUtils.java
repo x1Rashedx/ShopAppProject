@@ -1,28 +1,39 @@
 package Database;
 
+import Objects.*;
+import Utils.Images;
+
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @SuppressWarnings("CallToPrintStackTrace")
 public class DBUtils {
     private final Connection conn = DBConnector.getInstance().getConnection();
 
-    public boolean login(String phoneNumberOrEmail, String password) {
-        String query = "SELECT password FROM Users WHERE email = ?";
+    public User login(String identifier, String password) {
+        String query = "SELECT * FROM Users WHERE (email = ? OR phone_number = ?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, phoneNumberOrEmail);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                String storedPassword = rs.getString("password");
-                // hash function should be here
-                return password.equals(storedPassword);
+            stmt.setString(1, identifier); // Matches email
+            stmt.setString(2, identifier); // Matches phone number
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    String storedPassword = rs.getString("password");
+                    if (password.equals(storedPassword)) {
+                        UUID iD = UUID.fromString(rs.getString("id"));
+                        String firstName = rs.getString("first_name");
+                        String lastName = rs.getString("last_name");
+                        String phoneNumber = rs.getString("phone_number");
+                        String email = rs.getString("email");
+                        return new User(iD, firstName, lastName, phoneNumber, email, password, User.Role.ADMIN);
+                    }
+                }
             }
-            return false;
+            return null;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 
@@ -88,8 +99,8 @@ public class DBUtils {
         }
     }
 
-    public void addProduct(UUID id, UUID storeId, String name, String description, double price, int quantity) {
-        String query = "INSERT INTO Products (id, store_id, name, description, price, quantity) VALUES (?, ?, ?, ?, ?, ?)";
+    public void addProduct(UUID id, UUID storeId, String name, String description, double price, int quantity, byte[] image) {
+        String query = "INSERT INTO Products (id, store_id, name, description, price, quantity, main_image_icon) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, id.toString());
             stmt.setString(2, storeId.toString());
@@ -97,55 +108,132 @@ public class DBUtils {
             stmt.setString(4, description);
             stmt.setDouble(5, price);
             stmt.setInt(6, quantity);
+            stmt.setBytes(7, image);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public boolean retrieveUser(String uniqueIdentifier) {
-        String query = "SELECT " + uniqueIdentifier + " FROM User";
-        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
-            while (rs.next()) {
+    public ArrayList<Product> getProducts(UUID storeId) {
+        String query;
+        ArrayList<Product> products = new ArrayList<>();
 
+        // Check if storeId is provided
+        if (storeId == null) {
+            query = "SELECT * FROM Products";
+        } else {
+            query = "SELECT * FROM Products WHERE store_id = ?";
+        }
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            if (storeId != null) {
+                stmt.setString(1, storeId.toString());
             }
-            return true;
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+                    UUID iD = UUID.fromString(rs.getString("id"));
+                    UUID pStoreId = UUID.fromString(rs.getString("id"));
+                    String name = rs.getString("name");
+                    String description = rs.getString("description");
+                    double price = rs.getDouble("price");
+                    int quantity = rs.getInt("quantity");
+                    byte[] image = rs.getBytes("main_image_icon");
+
+                    Product product = new Product(iD, pStoreId, name, description, price, quantity, Images.byteArrayToImageIcon(image));
+                    products.add(product);
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+
+        return products;
     }
 
-    public void retrieveAddresses() {
-        String query = "SELECT * FROM Address";
-        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
-            while (rs.next()) {
+    public ArrayList<User> getUsers(User.Role role) {
+        String query = "SELECT * FROM ?";
+        ArrayList<User> users = new ArrayList<>();
 
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, role.name().toLowerCase() + "s");
+
+            try (ResultSet rs = stmt.executeQuery(query)) {
+                while (rs.next()) {
+                    UUID iD = UUID.fromString(rs.getString("id"));
+                    String firstName = rs.getString("first_name");
+                    String lastName = rs.getString("last_name");
+                    String phoneNumber = rs.getString("phone_number");
+                    String email = rs.getString("email");
+                    String password = rs.getString("password");
+                    users.add(new User(iD, firstName, lastName, phoneNumber, email, password, role));
+                }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return users;
     }
 
-    public void retrieveStores() {
-        String query = "SELECT * FROM Store";
-        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
-            while (rs.next()) {
+    public ArrayList<Address> getAddresses(UUID userId) {
+        String query = "SELECT * FROM Address WHERE user_id = ?";
+        ArrayList<Address> addresses = new ArrayList<>();
 
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, userId.toString());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    UUID iD = UUID.fromString(rs.getString("id"));
+                    String country = rs.getString("name");
+                    String city = rs.getString("description");
+                    String postalCode = rs.getString("price");
+                    String additionalInfo = rs.getString("quantity");
+
+                    addresses.add(new Address(iD, country, city, postalCode, additionalInfo));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return addresses;
     }
 
-    public void retrieveProducts() {
-        String query = "SELECT * FROM Product";
+
+    public ArrayList<Store> getStores() {
+        String query = "SELECT * FROM Stores";
+        ArrayList<Store> stores = new ArrayList<>();
         try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-
+                UUID iD = UUID.fromString(rs.getString("id"));
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                stores.add(new Store(iD, name, description));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return stores;
+    }
+
+    public ArrayList<UUID> getCart(UUID userId) {
+        String query = "SELECT * FROM Cart WHERE user_id = ?";
+        ArrayList<UUID> productId = new ArrayList<>();
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, userId.toString());
+            try (ResultSet rs = stmt.executeQuery(query)) {
+                while (rs.next()) {
+                    String iD = rs.getString("id");
+                    productId.add(UUID.fromString(iD));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productId;
     }
 }

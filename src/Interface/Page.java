@@ -48,7 +48,7 @@ public abstract class Page {
 
         cartButton.setPreferredSize(new Dimension(40, 40));
         cartButton.setMargin(new Insets(0, 0, 0, 0));
-        cartButton.add(new JLabel(Images.getImage("download", 40, 40)));
+        cartButton.add(new JLabel(Images.getImage("CartImg", 40, 40)));
 
         accountButton.setPreferredSize(new Dimension(40, 40));
         accountButton.setMargin(new Insets(0, 0, 0, 0));

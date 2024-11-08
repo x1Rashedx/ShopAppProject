@@ -1,6 +1,8 @@
 package Interface;
 
+import Objects.Main;
 import Objects.Product;
+import Services.CartService;
 import Utils.Images;
 
 import javax.swing.*;
@@ -60,11 +62,11 @@ public class CartPage extends Page {
         productsButtonsPanel.removeAll();
         int productPanelHeight = 20;
 
-        /*for (UUID product : Main.currentUser.getCart().getProducts()) {
-            productPanelHeight += 205;
-            JButton productButton = getProductButton(product);
-            productsButtonsPanel.add(productButton);
-        }*/
+//        for (Product product : CartService.getCart()) {
+//            productPanelHeight += 205;
+//            JButton productButton = getProductButton(product);
+//            productsButtonsPanel.add(productButton);
+//        }
 
         productsButtonsPanel.setPreferredSize(new Dimension(0, productPanelHeight));
         productsButtonsPanel.revalidate();

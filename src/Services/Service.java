@@ -5,7 +5,11 @@ import Database.DBUtils;
 public class Service {
     protected static DBUtils database;
 
-    Service() {
+    public Service() {
+        initDatabase();
+    }
+
+    private void initDatabase() {
         database = new DBUtils();
     }
 }
