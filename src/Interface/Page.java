@@ -1,25 +1,28 @@
 package Interface;
 
+import Database.DBConnector;
 import Utils.Images;
 import javax.swing.*;
 import java.awt.*;
 
 public abstract class Page {
-    static MyFrame mainFrame;
     protected JPanel mainPanel = new JPanel();
 
     protected JPanel toolBeltPanel = new JPanel();
     protected JPanel sidePanel = new JPanel();
 
-    int panelWidth = MyFrame.width;
-    int panelHeight = MyFrame.height;
-    int sidePanelWidth = 300;
-    int sidePanelHeight = panelHeight - 40;
+    protected int panelWidth = MyFrame.getWidth();
+    protected int panelHeight = MyFrame.getHeight();
+    protected int sidePanelWidth = 300;
+    protected int sidePanelHeight = panelHeight - 40;
 
     Page() {
         mainPanel.setLayout(new BorderLayout(0, 0));
         mainPanel.setBounds(0, 0, panelWidth, panelHeight);
     }
+
+    protected abstract void initPage();
+    protected abstract void actionListener();
 
     protected void defaultBackground() {
         mainPanel.setBackground(Color.GRAY);
@@ -69,8 +72,13 @@ public abstract class Page {
         panel.add(label);
     }
 
+    protected void setTextField(JTextField textField, JPanel panel, int x, int y, int width, int height) {
+        textField.setBounds(x, y, width, height);
+        panel.add(textField);
+    }
+
     protected static void switchToPageWhenPressed(JButton button, String pageName) {
-        button.addActionListener(e -> mainFrame.switchToPage(pageName));
+        button.addActionListener(e -> MyFrame.switchToPage(pageName));
     }
 
     public JPanel getPanel() {

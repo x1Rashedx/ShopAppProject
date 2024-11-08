@@ -4,27 +4,33 @@ import Objects.Main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 import java.util.Stack;
 
-public class MyFrame {
-    private final JFrame frame = new JFrame("ShopSphere");
-    private final CardLayout cardLayout = new CardLayout();
-    private final JPanel mainPanel = new JPanel(cardLayout);
-    private final Stack<String> history = new Stack<>();
+public final class MyFrame {
+    private static final JFrame frame = new JFrame("ShopSphere");
+    private static final CardLayout cardLayout = new CardLayout();
+    private static final JPanel mainPanel = new JPanel(cardLayout);
+    private static final Stack<String> history = new Stack<>();
 
-    static final int width = 1200;
-    static final int height = 800;
+    private static final int width = 1200;
+    private static final int height = 800;
 
     public MyFrame() {
         initFrame();
+    }
+
+    public static int getWidth() {
+        return width;
+    }
+
+    public static int getHeight() {
+        return height;
     }
 
     private void initFrame() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
         frame.setMinimumSize(new Dimension(1000, 700));
-        mainPanel.setPreferredSize(new Dimension(width, height));
 
         loadPanels();
         switchToPage("StartPage");
@@ -34,18 +40,20 @@ public class MyFrame {
         frame.setVisible(true);
     }
 
-    private void loadPanels() {
-        Page.mainFrame = this;
+    private static void loadPanels() {
+        mainPanel.setPreferredSize(new Dimension(width, height));
         mainPanel.add(new StartPage().getPanel(), "StartPage");
         mainPanel.add(new LoginPage().getPanel(), "LoginPage");
         mainPanel.add(new StoresPage().getPanel(), "StoresPage");
         mainPanel.add(new CartPage().getPanel(), "CartPage");
         mainPanel.add(new AccountPage().getPanel(), "AccountPage");
+        mainPanel.add(new AdminPage().getPanel(), "AdminPage");
+        mainPanel.add(new RegisterPage().getPanel(), "RegisterPage");
     }
 
-    public void switchToPage(String pageName) {
-        if (Objects.equals(pageName, "CheckoutPage") && !Main.signedIn) {pageName = "LoginPage";}
-        if (Objects.equals(pageName, "PreviousPage")) {history.pop(); pageName = history.pop();}
+    static void switchToPage(String pageName) {
+        if (pageName.equals("CheckoutPage") && !Main.isSignedIn()) {pageName = "LoginPage";}
+        if (pageName.equals("PreviousPage")) {history.pop(); pageName = history.pop();}
         cardLayout.show(mainPanel, pageName);
         history.push(pageName);
     }

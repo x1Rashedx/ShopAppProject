@@ -9,16 +9,10 @@ public class Store {
     private String name;
     private String description;
     private final ArrayList<UUID> managers = new ArrayList<>();
-    private final ArrayList<Product> Products = new ArrayList<>();
+    private final ArrayList<UUID> Products = new ArrayList<>();
 
-    Store(String iD,String name, String description) {
-        this.iD = UUID.fromString(iD);
-        this.name = name;
-        this.description = description;
-    }
-
-    Store(String name, String description) {
-        this.iD = UUID.randomUUID();
+    public Store(UUID iD, String name, String description) {
+        this.iD = iD;
         this.name = name;
         this.description = description;
     }
@@ -40,11 +34,11 @@ public class Store {
     }
 
     public void addProduct(Product product) {
-        Products.add(product);
+        Products.add(product.getId());
     }
 
     public void removeProduct(Product product) {
-        Products.remove(product);
+        Products.remove(product.getId());
     }
 
 
@@ -64,7 +58,7 @@ public class Store {
         return description;
     }
 
-    public ArrayList<Product> getProducts() {
+    public ArrayList<UUID> getProducts() {
         return Products;
     }
 

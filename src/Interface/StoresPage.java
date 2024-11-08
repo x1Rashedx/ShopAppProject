@@ -21,16 +21,25 @@ public class StoresPage extends Page {
 
     private final Color buttonColor = Color.DARK_GRAY;
 
-    public StoresPage() {
+    StoresPage() {
         initPage();
     }
 
-    private void initPage() {
+    @Override
+    protected void initPage() {
         defaultBackground();
+        actionListener();
+
         sidePanel.setLayout(new BorderLayout(0, 0));
+
         setupStoresPanel();
         setupProductsPanel();
         setupSearchBarPanel();
+    }
+
+    @Override
+    public void actionListener() {
+
     }
 
     private void setupStoresPanel() {
@@ -142,11 +151,12 @@ public class StoresPage extends Page {
         productsButtonsPanel.removeAll();
         int productPanelHeight = 230;
 
-        for (Product product : store.getProducts()) {
+        /*for (UUID productId : store.getProducts()) {
+
             productPanelHeight += 230 / ((panelWidth - sidePanelWidth) / 171);
             JButton productButton = getProductButton(product);
             productsButtonsPanel.add(productButton);
-        }
+        }*/
 
         productsButtonsPanel.setPreferredSize(new Dimension(0, productPanelHeight));
         productsButtonsPanel.revalidate();

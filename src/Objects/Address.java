@@ -9,16 +9,8 @@ public class Address {
     private String postalCode;
     private String additionalInfo;
 
-    Address(String iD, String country, String city, String postalCode, String additionalInfo) {
-        this.iD = UUID.fromString(iD);
-        this.country = country;
-        this.city = city;
-        this.postalCode = postalCode;
-        this.additionalInfo = additionalInfo;
-    }
-
-    Address(String country, String city, String postalCode, String additionalInfo) {
-        this.iD = UUID.randomUUID();
+    public Address(UUID iD, String country, String city, String postalCode, String additionalInfo) {
+        this.iD = iD;
         this.country = country;
         this.city = city;
         this.postalCode = postalCode;

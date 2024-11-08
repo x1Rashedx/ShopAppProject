@@ -1,4 +1,18 @@
 package Interface;
 
-public class AllProductsPage {
+public class AllProductsPage extends Page {
+
+    AllProductsPage() {
+        initPage();
+    }
+
+    @Override
+    protected void initPage() {
+
+    }
+
+    @Override
+    protected void actionListener() {
+
+    }
 }

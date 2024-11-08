@@ -9,14 +9,15 @@ public class LoginPage extends Page {
     JLabel emailLabel = new JLabel("Email:");
     JLabel passLabel = new JLabel("Password:");
     JTextField emailField = new JTextField("");
-    JPasswordField passField = new JPasswordField("");
+    JPasswordField passwordField = new JPasswordField("");
 
 
     LoginPage() {
         initPage();
     }
 
-    void initPage() {
+    @Override
+    protected void initPage() {
         defaultBackground();
         actionListener();
 
@@ -26,14 +27,11 @@ public class LoginPage extends Page {
         setLabel(emailLabel, sidePanel, (sidePanelWidth / 2) - 100, (sidePanelHeight / 3) - 75, 200, 25);
         setLabel(passLabel, sidePanel, (sidePanelWidth / 2) - 100, (sidePanelHeight / 3) - 25, 200, 25);
 
-        emailField.setBounds((sidePanelWidth / 2) - 100, (sidePanelHeight / 3) - 50, 200, 25);
-        passField.setBounds((sidePanelWidth / 2) - 100, (sidePanelHeight / 3), 200, 25);
-
-        sidePanel.add(emailField);
-        sidePanel.add(passField);
-
+        setTextField(emailField, sidePanel, (sidePanelWidth / 2) - 100, (sidePanelHeight / 3) - 50, 200, 25);
+        setTextField(passwordField, sidePanel, (sidePanelWidth / 2) - 100, (sidePanelHeight / 3), 200, 25);
     }
 
+    @Override
     public void actionListener() {
         switchToPageWhenPressed(backButton, "PreviousPage");
     }

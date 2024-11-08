@@ -1,6 +1,5 @@
 package Interface;
 
-import Objects.Main;
 import Objects.Product;
 import Utils.Images;
 
@@ -21,7 +20,11 @@ public class CartPage extends Page {
         initPage();
     }
 
-    private void initPage() {
+    @Override
+    protected void initPage() {
+        actionListener();
+        defaultBackground();
+
         setButton(checkoutButton, sidePanel, (sidePanelWidth / 2) - 100, sidePanelHeight - 250, 200, 25);
         setButton(backButton, sidePanel,(sidePanelWidth / 2) - 100, sidePanelHeight - 200, 200, 25);
 
@@ -45,20 +48,23 @@ public class CartPage extends Page {
         });
 
         mainPanel.add(productsScrollPane);
+    }
 
-        actionListener();
-        defaultBackground();
+    @Override
+    protected void actionListener() {
+        switchToPageWhenPressed(checkoutButton, "CheckoutPage");
+        switchToPageWhenPressed(backButton, "PreviousPage");
     }
 
     private void updateCartProductsPanel() {
         productsButtonsPanel.removeAll();
         int productPanelHeight = 20;
 
-        for (Product product : Main.currentUser.getCart().getProducts()) {
+        /*for (UUID product : Main.currentUser.getCart().getProducts()) {
             productPanelHeight += 205;
             JButton productButton = getProductButton(product);
             productsButtonsPanel.add(productButton);
-        }
+        }*/
 
         productsButtonsPanel.setPreferredSize(new Dimension(0, productPanelHeight));
         productsButtonsPanel.revalidate();
@@ -103,10 +109,5 @@ public class CartPage extends Page {
         textPanel.add(descriptionLabel, BorderLayout.CENTER);
         textPanel.add(priceLabel, BorderLayout.SOUTH);
         return textPanel;
-    }
-
-    private void actionListener() {
-        switchToPageWhenPressed(checkoutButton, "CheckoutPage");
-        switchToPageWhenPressed(backButton, "PreviousPage");
     }
 }

@@ -1,8 +1,6 @@
 package Interface;
 
-import Objects.Admin;
 import Objects.Main;
-import Objects.Manager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,11 +19,17 @@ public class AccountPage extends Page {
         initPage();
     }
 
-    private void initPage() {
+    @Override
+    protected void initPage() {
+        defaultBackground();
+        actionListener();
+
         setButton(userInfoButton, sidePanel, 0, 0, sidePanelWidth, 100);
         setButton(ordersButton, sidePanel, 0, 100, sidePanelWidth, 100);
         setButton(addressesButton, sidePanel, 0, 200, sidePanelWidth, 100);
         setButton(settingsButton, sidePanel, 0, 300, sidePanelWidth, 100);
+        setButton(specialUserButton, sidePanel, 0, 400, sidePanelWidth, 100);
+        toolBeltPanel.add(backButton, BorderLayout.WEST);
         mainPanel.addComponentListener(new ComponentListener() {
             @Override
             public void componentShown(ComponentEvent e) {
@@ -38,26 +42,30 @@ public class AccountPage extends Page {
             @Override
             public void componentHidden(ComponentEvent e) {}
         });
-        defaultBackground();
-        actionListener();
+    }
 
-        toolBeltPanel.add(backButton, BorderLayout.WEST);
+    @Override
+    protected void actionListener() {
+        switchToPageWhenPressed(backButton, "PreviousPage");
+        specialUserButton.addActionListener(e -> {
+            if (Main.currentUser.isAdmin()) {
+                MyFrame.switchToPage("AdminPage");
+            } else if (Main.currentUser.isAdmin()) {
+                MyFrame.switchToPage("ManagerPage");
+            }
+        });
     }
 
     private void updateSpecialUserButton() {
-        if (Main.currentUser instanceof Admin) {
+        if (Main.currentUser.isAdmin()) {
             specialUserButton.setText("Admin settings");
-            setButton(specialUserButton, sidePanel, 0, 400, sidePanelWidth, 100);
-        } else if (Main.currentUser instanceof Manager) {
+            specialUserButton.setVisible(true);
+        } else if (Main.currentUser.isManager()) {
             specialUserButton.setText("Manager settings");
-            setButton(specialUserButton, sidePanel, 0, 400, sidePanelWidth, 100);
+            specialUserButton.setVisible(true);
         } else {
             specialUserButton.setText("");
-            sidePanel.remove(specialUserButton);
+            specialUserButton.setVisible(false);
         }
-    }
-
-    private void actionListener() {
-        switchToPageWhenPressed(backButton, "PreviousPage");
     }
 }

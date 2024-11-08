@@ -3,18 +3,32 @@ package Objects;
 import Interface.MyFrame;
 
 import java.util.ArrayList;
-import javax.swing.*;
+import java.util.UUID;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 
 public class Main {
-    public static boolean signedIn = false;
-    public static User currentUser;
-    public static ArrayList<Store> Stores = new ArrayList<>();
+    private static boolean isSignedIn = false;
+    private static User currentUser = new User(UUID.randomUUID(),"", "", "", "", User.Role.ADMIN);
 
-    public static void addStore(String name, String description) {
-        Stores.add(new Store(name, description));
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+        isSignedIn = (user != null);
     }
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static boolean isSignedIn() {
+        return isSignedIn;
+    }
+
+    /*
+    public static void addStore(String name, String description) {
+        Stores.add(new Store(UUID.randomUUID(), name, description));
+    }
+
 
     public static void addStores() {
         addStore("Gigabyte", "this is a description");
@@ -40,11 +54,10 @@ public class Main {
             j += 15;
         }
     }
+     */
 
     public static void main(String[] args) {
         FlatDarkLaf.setup();
-        currentUser = new Admin("", "", "", "");
-        addStores();
         new MyFrame();
     }
 }

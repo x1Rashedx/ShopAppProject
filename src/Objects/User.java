@@ -4,33 +4,35 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class User {
+
+    public enum Role {
+        ADMIN, MANAGER, CUSTOMER
+    }
+
     private final UUID iD;
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private String email;
     private String password;
-    private final ArrayList<Address> addresses = new ArrayList<>();
-    private final Cart cart = new Cart();
+    private Role role;
+    private final ArrayList<UUID> addresses = new ArrayList<>();
+    private final Cart cart;
+    private final ArrayList<UUID> managedStores = new ArrayList<>();
 
-    User(String iD, String firstName, String lastName, String phoneNumber, String password) {
-        this.iD = UUID.fromString(iD);
-        this.phoneNumber = phoneNumber;
+    public User(UUID iD, String firstName, String lastName, String phoneNumber, String email, String password, Role role) {
+        this.iD = iD;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-    }
-
-    // Constructor that generates a new UUID
-    User(String firstName, String lastName, String phoneNumber, String password) {
-        this.iD = UUID.randomUUID();
         this.phoneNumber = phoneNumber;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.cart = new Cart(iD);
     }
 
 
+    // Update methods
     public void changeFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -51,23 +53,47 @@ public class User {
         this.email = email;
     }
 
-    public void addAddress(String country, String city, String postalCode, String additionalInfo) {
-        String addressId = "";
-        addresses.add(new Address(addressId, country, city, postalCode, additionalInfo));
+    public void changeRole(Role role) {
+        this.role = role;
     }
 
+    // Address management
+    public void addAddress(UUID iD, String country, String city, String postalCode, String additionalInfo) {
+        addresses.add(iD);
+    }
+
+    public void removeAddress(UUID addressId) {
+        addresses.remove(addressId);
+    }
+
+    // Cart management
     public void addToCart(Product product) {
         cart.addProduct(product);
-    }
-
-    public void removeAddress(Address address) {
-        addresses.remove(address);
     }
 
     public void removeFromCart(Product product) {
         cart.removeProduct(product);
     }
 
+    // Managed store management
+    public void addManagedStore(Store store) {
+        managedStores.add(store.getId());
+    }
+
+    public void removeManagedStore(Store store) {
+        managedStores.remove(store.getId());
+    }
+
+    // Role checks
+    public boolean isAdmin() {
+        return role == Role.ADMIN;
+    }
+
+    public boolean isManager() {
+        return role == Role.MANAGER;
+    }
+
+    // Getters
     public UUID getId() {
         return iD;
     }
@@ -92,11 +118,15 @@ public class User {
         return phoneNumber;
     }
 
-    public ArrayList<Address> getAddresses() {
+    public ArrayList<UUID> getAddresses() {
         return addresses;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public ArrayList<UUID> getManagedStores() {
+        return managedStores;
     }
 }

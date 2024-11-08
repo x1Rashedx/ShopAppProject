@@ -6,32 +6,22 @@ import java.util.UUID;
 
 public class Product {
     private final UUID iD;
-    private final String storeName;
+    private final UUID storeId;  // Links product to a specific store
     private String name;
     private String description;
     private double price;
     private int quantity;
-    private ImageIcon imageIcon;
+    private ImageIcon mainImageIcon;
     private final ArrayList<ImageIcon> images = new ArrayList<>();
 
-    Product(String iD, String storeName, String name, String description, double price, int quantity, ImageIcon imageIcon) {
-        this.iD = UUID.fromString(iD);
+    public Product(UUID iD, UUID storeId, String name, String description, double price, int quantity, ImageIcon mainImageIcon) {
+        this.iD = iD;
+        this.storeId = storeId;
         this.name = name;
-        this.storeName = storeName;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
-        this.imageIcon = imageIcon;
-    }
-
-    Product(String name, String storeName, String description, double price, int quantity, ImageIcon imageIcon) {
-        this.iD = UUID.randomUUID();
-        this.name = name;
-        this.storeName = storeName;
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
-        this.imageIcon = imageIcon;
+        this.mainImageIcon = mainImageIcon;
     }
 
     public void changesetName(String name) {
@@ -50,8 +40,8 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public void changeImageIcon(ImageIcon imageIcon) {
-        this.imageIcon = imageIcon;
+    public void changeMainImageIcon(ImageIcon mainImageIcon) {
+        this.mainImageIcon = mainImageIcon;
     }
 
 
@@ -63,8 +53,8 @@ public class Product {
         return name;
     }
 
-    public String getStoreName() {
-        return storeName;
+    public UUID getStoreId() {
+        return storeId;
     }
 
     public String getDescription() {
@@ -79,7 +69,7 @@ public class Product {
         return quantity;
     }
 
-    public ImageIcon getImageIcon() {
-        return imageIcon;
+    public ImageIcon getMainImageIcon() {
+        return mainImageIcon;
     }
 }
