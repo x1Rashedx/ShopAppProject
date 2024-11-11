@@ -66,15 +66,6 @@ public class User {
         addresses.remove(addressId);
     }
 
-    // Cart management
-    public void addToCart(Product product, int quantity) {
-        cart.addProduct(product, quantity);
-    }
-
-    public void removeFromCart(Product product) {
-        cart.removeProduct(product);
-    }
-
     // Managed store management
     public void addManagedStore(Store store) {
         managedStores.add(store.getId());
