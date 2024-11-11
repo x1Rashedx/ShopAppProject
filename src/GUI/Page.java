@@ -1,6 +1,5 @@
-package Interface;
+package GUI;
 
-import Database.DBConnector;
 import Utils.Images;
 import javax.swing.*;
 import java.awt.*;

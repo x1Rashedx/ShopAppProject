@@ -1,10 +1,9 @@
 package Objects;
 
-import Interface.MyFrame;
+import GUI.MyFrame;
 import java.util.UUID;
 
 import Services.Service;
-import Services.StoresService;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 

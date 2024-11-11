@@ -1,8 +1,6 @@
-package Interface;
+package GUI;
 
-import Objects.Main;
 import Objects.Product;
-import Services.CartService;
 import Utils.Images;
 
 import javax.swing.*;
