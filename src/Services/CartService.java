@@ -8,7 +8,7 @@ import java.util.UUID;
 public final class CartService extends Service {
 
     public static void addToCart(Product product, int quantity) {
-        Main.getCurrentUser().addToCart(product, quantity);
+        Main.getCurrentUser().getCart().addProduct(product, quantity);
         if (Main.isSignedIn()) {
             database.addToCart(Main.getCurrentUser().getId(), product.getId());
         }
