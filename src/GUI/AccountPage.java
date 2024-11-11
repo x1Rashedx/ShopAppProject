@@ -30,7 +30,7 @@ public class AccountPage extends Page {
         setButton(settingsButton, sidePanel, 0, 300, sidePanelWidth, 100);
         setButton(specialUserButton, sidePanel, 0, 400, sidePanelWidth, 100);
         toolBeltPanel.add(backButton, BorderLayout.WEST);
-        mainPanel.addComponentListener(new ComponentListener() {
+        this.addComponentListener(new ComponentListener() {
             @Override
             public void componentShown(ComponentEvent e) {
                 updateSpecialUserButton();

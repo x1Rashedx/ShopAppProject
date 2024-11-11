@@ -42,13 +42,13 @@ public final class MyFrame {
 
     private static void loadPanels() {
         mainPanel.setPreferredSize(new Dimension(width, height));
-        mainPanel.add(new StartPage().getPanel(), "StartPage");
-        mainPanel.add(new LoginPage().getPanel(), "LoginPage");
-        mainPanel.add(new StoresPage().getPanel(), "StoresPage");
-        mainPanel.add(new CartPage().getPanel(), "CartPage");
-        mainPanel.add(new AccountPage().getPanel(), "AccountPage");
-        mainPanel.add(new AdminPage().getPanel(), "AdminPage");
-        mainPanel.add(new RegisterPage().getPanel(), "RegisterPage");
+        mainPanel.add(new StartPage(), "StartPage");
+        mainPanel.add(new LoginPage(), "LoginPage");
+        mainPanel.add(new StoresPage(), "StoresPage");
+        mainPanel.add(new CartPage(), "CartPage");
+        mainPanel.add(new AccountPage(), "AccountPage");
+        mainPanel.add(new AdminPage(), "AdminPage");
+        mainPanel.add(new RegisterPage(), "RegisterPage");
     }
 
     static void switchToPage(String pageName) {

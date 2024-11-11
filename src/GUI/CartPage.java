@@ -34,7 +34,7 @@ public class CartPage extends Page {
         productsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         productsScrollPane.setBackground(Color.GRAY);
 
-        mainPanel.addComponentListener(new ComponentListener() {
+        this.addComponentListener(new ComponentListener() {
             @Override
             public void componentShown(ComponentEvent e) {
                 updateCartProductsPanel();
@@ -47,7 +47,7 @@ public class CartPage extends Page {
             public void componentHidden(ComponentEvent e) {}
         });
 
-        mainPanel.add(productsScrollPane);
+        this.add(productsScrollPane);
     }
 
     @Override

@@ -4,8 +4,7 @@ import Utils.Images;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class Page {
-    protected JPanel mainPanel = new JPanel();
+public abstract class Page extends JPanel {
 
     protected JPanel toolBeltPanel = new JPanel();
     protected JPanel sidePanel = new JPanel();
@@ -16,15 +15,15 @@ public abstract class Page {
     protected int sidePanelHeight = panelHeight - 40;
 
     Page() {
-        mainPanel.setLayout(new BorderLayout(0, 0));
-        mainPanel.setBounds(0, 0, panelWidth, panelHeight);
+        this.setLayout(new BorderLayout(0, 0));
+        this.setBounds(0, 0, panelWidth, panelHeight);
     }
 
     protected abstract void initPage();
     protected abstract void actionListener();
 
     protected void defaultBackground() {
-        mainPanel.setBackground(Color.GRAY);
+        this.setBackground(Color.GRAY);
 
         sidePanel.setLayout(null);
         sidePanel.setBackground(Color.DARK_GRAY);
@@ -37,8 +36,8 @@ public abstract class Page {
         toolBeltButtons();
         //toolBeltPanel.setBounds(0, 0, panelWidth, 40);
 
-        mainPanel.add(toolBeltPanel, BorderLayout.NORTH);
-        mainPanel.add(sidePanel, BorderLayout.EAST);
+        this.add(toolBeltPanel, BorderLayout.NORTH);
+        this.add(sidePanel, BorderLayout.EAST);
     }
 
     private void toolBeltButtons() {
@@ -81,6 +80,6 @@ public abstract class Page {
     }
 
     public JPanel getPanel() {
-        return mainPanel;
+        return this;
     }
 }

@@ -60,7 +60,7 @@ public class StoresPage extends Page {
         //productsScrollPane.setBounds(0, 90, panelWidth - sidePanelWidth, panelHeight - 90);
         productsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         productsScrollPane.setBackground(Color.GRAY);
-        mainPanel.add(productsScrollPane);
+        this.add(productsScrollPane);
     }
 
     private void setupSearchBarPanel() {
